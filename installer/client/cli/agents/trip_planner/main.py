@@ -1,15 +1,17 @@
-from crewai import Crew
+import os
 from textwrap import dedent
+
+from crewai import Crew
+from dotenv import load_dotenv
+
 from .trip_agents import TripAgents
 from .trip_tasks import TripTasks
-import os
-from dotenv import load_dotenv
 
 current_directory = os.path.dirname(os.path.realpath(__file__))
 config_directory = os.path.expanduser("~/.config/fabric")
 env_file = os.path.join(config_directory, ".env")
 load_dotenv(env_file)
-os.environ['OPENAI_MODEL_NAME'] = 'gpt-4-0125-preview'
+os.environ["OPENAI_MODEL_NAME"] = "gpt-4o"
 
 
 class TripCrew:
@@ -29,31 +31,19 @@ class TripCrew:
         travel_concierge_agent = agents.travel_concierge()
 
         identify_task = tasks.identify_task(
-            city_selector_agent,
-            self.origin,
-            self.cities,
-            self.interests,
-            self.date_range
+            city_selector_agent, self.origin, self.cities, self.interests, self.date_range
         )
         gather_task = tasks.gather_task(
-            local_expert_agent,
-            self.origin,
-            self.interests,
-            self.date_range
+            local_expert_agent, self.origin, self.interests, self.date_range
         )
         plan_task = tasks.plan_task(
-            travel_concierge_agent,
-            self.origin,
-            self.interests,
-            self.date_range
+            travel_concierge_agent, self.origin, self.interests, self.date_range
         )
 
         crew = Crew(
-            agents=[
-                city_selector_agent, local_expert_agent, travel_concierge_agent
-            ],
+            agents=[city_selector_agent, local_expert_agent, travel_concierge_agent],
             tasks=[identify_task, gather_task, plan_task],
-            verbose=True
+            verbose=True,
         )
 
         result = crew.kickoff()
@@ -63,23 +53,35 @@ class TripCrew:
 class planner_cli:
     def ask(self):
         print("## Welcome to Trip Planner Crew")
-        print('-------------------------------')
+        print("-------------------------------")
         location = input(
-            dedent("""
+            dedent(
+                """
         From where will you be traveling from?
-        """))
+        """
+            )
+        )
         cities = input(
-            dedent("""
+            dedent(
+                """
         What are the cities options you are interested in visiting?
-        """))
+        """
+            )
+        )
         date_range = input(
-            dedent("""
+            dedent(
+                """
         What is the date range you are interested in traveling?
-        """))
+        """
+            )
+        )
         interests = input(
-            dedent("""
+            dedent(
+                """
         What are some of your high level interests and hobbies?
-        """))
+        """
+            )
+        )
 
         trip_crew = TripCrew(location, cities, date_range, interests)
         result = trip_crew.run()

@@ -1,0 +1,33 @@
+framework: crewai
+topic: 'Search for recent match results for the 2024 french open on www.google.com
+  and write me a detailed report
+
+  '
+roles:
+  match_result_finder:
+    backstory: Skilled in using search tools to gather relevant online data, specifically
+      focused on Google's search engine.
+    goal: Find recent match results for the French Open on google.com
+    role: Match Result Finder
+    tasks:
+      search_for_match_results:
+        description: Use the given tool to look for recent match results of the 2024
+          French Open.
+        expected_output: A detailed summary of the most recent match results from
+          various sources.
+    tools:
+    - ''
+  report_writer:
+    backstory: Expert in analyzing and summarizing data into comprehensive reports
+      that provide valuable insights.
+    goal: Write a detailed report based on search findings
+    role: Report Writer
+    tasks:
+      write_report:
+        description: Using the documents found, create a detailed report on the most
+          recent 2024 French Open match results.
+        expected_output: A well-structured document containing in-depth analysis and
+          summary of the searched match results.
+    tools:
+    - ''
+dependencies: []
