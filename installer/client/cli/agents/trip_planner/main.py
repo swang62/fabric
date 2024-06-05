@@ -3,9 +3,8 @@ from textwrap import dedent
 
 from crewai import Crew
 from dotenv import load_dotenv
-
-from .trip_agents import TripAgents
-from .trip_tasks import TripTasks
+from trip_agents import TripAgents
+from trip_tasks import TripTasks
 
 current_directory = os.path.dirname(os.path.realpath(__file__))
 config_directory = os.path.expanduser("~/.config/fabric")
@@ -89,3 +88,8 @@ class planner_cli:
         print("## Here is you Trip Plan")
         print("########################\n")
         print(result)
+
+
+if __name__ == "__main__":
+    planner = planner_cli()
+    planner.ask()
