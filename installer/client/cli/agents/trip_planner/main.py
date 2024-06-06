@@ -10,7 +10,9 @@ current_directory = os.path.dirname(os.path.realpath(__file__))
 config_directory = os.path.expanduser("~/.config/fabric")
 env_file = os.path.join(config_directory, ".env")
 load_dotenv(env_file)
-os.environ["OPENAI_MODEL_NAME"] = "gpt-4o"
+os.environ["OPENAI_MODEL_NAME"] = os.environ["DEFAULT_MODEL"]
+os.environ["OPENAI_API_BASE"] = "http://localhost:11434/v1"
+os.environ["OPENAI_API_KEY"] = "NA"
 
 
 class TripCrew:
